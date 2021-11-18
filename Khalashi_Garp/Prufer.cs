@@ -8,16 +8,17 @@ namespace Khalashi_Garp
 {
     public class Prufer
     {
-        private readonly uint[] sequence;
+        public uint[] Sequence { get => _sequence; }
+        private readonly uint[] _sequence;
 
         public Prufer(uint[] sequence)
         {
-            this.sequence = sequence;
+            this._sequence = sequence;
         }
         public Tree ToTree()
         {
             var tree = new Tree();
-            var vertices = sequence.Length + 2;
+            var vertices = _sequence.Length + 2;
             var vertex_set = new int[vertices];
 
             // Initialize the array of vertices
@@ -26,7 +27,7 @@ namespace Khalashi_Garp
 
             // Number of occurrences of vertex in code
             for (int i = 0; i < vertices - 2; i++)
-                vertex_set[sequence[i] - 1] += 1;
+                vertex_set[_sequence[i] - 1] += 1;
             int j = 0;
             // Find the smallest label not present in
             // prufer[].
@@ -42,9 +43,9 @@ namespace Khalashi_Garp
                         // Remove from Prufer set and print
                         // pair.
                         vertex_set[j] = -1;
-                        tree.AddEdge((uint)(j + 1), sequence[i]);
+                        tree.AddEdge((uint)(j + 1), _sequence[i]);
 
-                        vertex_set[sequence[i] - 1]--;
+                        vertex_set[_sequence[i] - 1]--;
 
                         break;
                     }
@@ -71,6 +72,10 @@ namespace Khalashi_Garp
         {
             Console.Write("\nThe edge set E(G) is:\n");
             Console.WriteLine(ToTree().ToString());
+        }
+        public override string ToString()
+        {
+            return "["+ String.Join(',',_sequence)+"]";
         }
     }
 }
